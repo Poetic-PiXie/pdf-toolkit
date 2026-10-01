@@ -70,7 +70,10 @@ a { color: var(--accent); }
 
 /* Top bar */
 .topbar { display: flex; align-items: center; gap: 10px; padding: 16px 0 6px; }
-.topbar img { width: 30px; height: 30px; border-radius: 7px; }
+.topbar .appicon { width: 30px; height: 30px; border-radius: 7px; }
+.topbar .by { font-weight: 500; color: var(--muted); }
+.topbar .pixie-logo { height: 64px; width: auto; border-radius: 9px; display: block; }
+@media (max-width: 520px) { .privacy span { display: none; } .topbar .pixie-logo { height: 48px; } }
 .topbar .brand { font-weight: 650; font-size: 17px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; }
 .privacy { margin-left: auto; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 .privacy svg { width: 15px; height: 15px; }
@@ -105,7 +108,8 @@ a { color: var(--accent); }
 .ticon svg { width: 23px; height: 23px; }
 .ticon.small { width: 36px; height: 36px; border-radius: 9px; }
 .ticon.small svg { width: 19px; height: 19px; }
-.foot { margin-top: 28px; color: var(--muted); font-size: 13px; text-align: center; }
+.pixie { display: block; width: 100%; max-width: 560px; height: auto; margin: 28px auto 0; border-radius: 18px; box-shadow: var(--shadow); }
+.foot { margin-top: 20px; color: var(--muted); font-size: 13px; text-align: center; }
 
 /* Tool screen */
 .back { display: inline-flex; align-items: center; gap: 4px; padding: 8px 2px; text-decoration: none; font-size: 15px; }
@@ -212,10 +216,10 @@ input:focus, select:focus { outline: 3px solid var(--accent-soft); border-color:
 <body>
 <div class="wrap">
   <header class="topbar">
-    <a class="brand" href="#"><img src="apple-touch-icon.png" alt="">PDF Toolkit</a>
+    <a class="brand" href="#"><img class="appicon" src="apple-touch-icon.png" alt="">PDF Toolkit</a>
     <span class="privacy" title="Everything happens in your browser. Nothing is uploaded.">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      Files stay on your device
+      <span>Files stay on your device</span>
     </span>
   </header>
   <main id="app"></main>
@@ -501,17 +505,11 @@ function statusBox(el) {
     done(msg, out) {
       clearUrl();
       url = URL.createObjectURL(out.blob);
-      const file = new File([out.blob], out.name, { type: out.blob.type });
-      let canShare = false;
-      try { canShare = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (_) {}
       el.innerHTML = `<div class="status done" role="status">
         <div class="status-msg">${ICON.check}<span>${esc(msg)}</span></div>
         <div class="status-actions">
           <a class="btn primary" href="${url}" download="${esc(out.name)}">${ICON.download}Download</a>
-          ${canShare ? `<button type="button" class="btn" data-share>${ICON.share}Share / Save…</button>` : ''}
         </div></div>`;
-      const sb = el.querySelector('[data-share]');
-      if (sb) sb.addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
     },
     clear() { clearUrl(); el.innerHTML = ''; },
   };
@@ -1002,7 +1000,8 @@ function renderHome() {
              <span><span class="card-title">${esc(t.title)}</span><span class="card-sub" style="display:block">${esc(t.sub)}</span></span>
            </a>`).join('')}
     </div>
-    <p class="foot">On iPhone or iPad, tap Share → Add to Home Screen to use PDF Toolkit like an app. Made by Poetic PiXie.</p>`;
+    <img class="pixie" src="pixie-pop.jpg" width="1040" height="693" alt="Poetic PiXie">
+    <p class="foot">On iPhone or iPad, tap Share → Add to Home Screen to use PDF Toolkit like an app. Made by Poetic PiXie · v1.1</p>`;
 }
 
 function renderTool(t) {

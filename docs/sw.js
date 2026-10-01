@@ -1,8 +1,8 @@
 // Offline support: serve from network when possible, fall back to the cache.
-const CACHE = 'pdf-toolkit-v1';
+const CACHE = 'pdf-toolkit-v1.1';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
-  './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon.png',
+  './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon.png', './pixie-pop.jpg',
   './vendor/pdf-lib.min.js', './vendor/jszip.min.js',
   './vendor/pdf.min.mjs', './vendor/pdf.worker.min.mjs'
 ];
