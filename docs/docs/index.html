@@ -501,17 +501,11 @@ function statusBox(el) {
     done(msg, out) {
       clearUrl();
       url = URL.createObjectURL(out.blob);
-      const file = new File([out.blob], out.name, { type: out.blob.type });
-      let canShare = false;
-      try { canShare = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (_) {}
       el.innerHTML = `<div class="status done" role="status">
         <div class="status-msg">${ICON.check}<span>${esc(msg)}</span></div>
         <div class="status-actions">
           <a class="btn primary" href="${url}" download="${esc(out.name)}">${ICON.download}Download</a>
-          ${canShare ? `<button type="button" class="btn" data-share>${ICON.share}Share / Save…</button>` : ''}
         </div></div>`;
-      const sb = el.querySelector('[data-share]');
-      if (sb) sb.addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
     },
     clear() { clearUrl(); el.innerHTML = ''; },
   };
